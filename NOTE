@@ -1,0 +1,286 @@
+# Dependencies
+
+sudo apt update
+sudo apt install docker.io
+
+# Installation
+
+https://docs.localstack.cloud/getting-started/installation/
+
+VERSION=2.2.0
+ARCH=amd64
+wget https://github.com/localstack/localstack-cli/releases/download/v${VERSION}/localstack-cli-${VERSION}-linux-${ARCH}-onefile.tar.gz
+tar xvzf localstack-cli-*-linux-*-onefile.tar.gz -C /usr/local/bin
+
+localstack --version
+2.2.0
+
+# Tests
+
+## aws cli
+
+aws s3 ls
+
+An error occurred (AccessDenied) when calling the ListBuckets operation: Access Denied
+
+apt install python3-pip
+pip install awscli-local
+
+awslocal s3 ls
+awslocal s3 mb s3://s3-bucket
+make_bucket: s3-bucket
+awslocal s3 ls
+2023-08-10 04:49:58 s3-bucket
+
+LOG:
+
+2023-08-10T04:48:51.197  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.ListBuckets => 200
+2023-08-10T04:49:58.273  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.CreateBucket => 200
+2023-08-10T04:51:03.551  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.ListBuckets => 200
+
+# Service available
+
+localstack status services
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+┃ Service                  ┃ Status      ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
+│ acm                      │ ✔ available │
+│ apigateway               │ ✔ available │
+│ cloudformation           │ ✔ available │
+│ cloudwatch               │ ✔ available │
+│ config                   │ ✔ available │
+│ dynamodb                 │ ✔ available │
+│ dynamodbstreams          │ ✔ available │
+│ ec2                      │ ✔ available │
+│ es                       │ ✔ available │
+│ events                   │ ✔ available │
+│ firehose                 │ ✔ available │
+│ iam                      │ ✔ available │
+│ kinesis                  │ ✔ available │
+│ kms                      │ ✔ available │
+│ lambda                   │ ✔ available │
+│ logs                     │ ✔ available │
+│ opensearch               │ ✔ available │
+│ redshift                 │ ✔ available │
+│ resource-groups          │ ✔ available │
+│ resourcegroupstaggingapi │ ✔ available │
+│ route53                  │ ✔ available │
+│ route53resolver          │ ✔ available │
+│ s3                       │ ✔ running   │
+│ s3control                │ ✔ available │
+│ scheduler                │ ✔ available │
+│ secretsmanager           │ ✔ available │
+│ ses                      │ ✔ available │
+│ sns                      │ ✔ available │
+│ sqs                      │ ✔ available │
+│ ssm                      │ ✔ available │
+│ stepfunctions            │ ✔ available │
+│ sts                      │ ✔ available │
+│ support                  │ ✔ available │
+│ swf                      │ ✔ available │
+│ transcribe               │ ✔ available │
+└──────────────────────────┴─────────────┘
+
+https://docs.localstack.cloud/user-guide/aws/feature-coverage/
+
+EKS:
+
+https://docs.localstack.cloud/references/coverage/coverage_eks/
+
+# Installation Pro version
+
+https://localstack.cloud/pricing/
+
+LOCALSTACK_API_KEY=XXXXX
+docker run \
+  --rm -it \
+  -p 4566:4566 \
+  -p 4510-4559:4510-4559 \
+  -e LOCALSTACK_API_KEY=${LOCALSTACK_API_KEY:- } \
+  localstack/localstack-pro
+[...]
+LocalStack version: 2.2.1.dev20230809125028
+LocalStack build date: 2023-08-09
+LocalStack build git hash: 9789be5
+
+2023-08-10T05:13:10.257  INFO --- [  MainThread] l.bootstrap.licensing      : Successfully activated API key
+Starting DNS servers (tcp/udp port 53 on 0.0.0.0)...
+2023-08-10T05:13:12.747  INFO --- [  MainThread] l.extensions.platform      : loaded 0 extensions
+2023-08-10T05:13:12.763  INFO --- [  MainThread] botocore.credentials       : Found credentials in environment variables.
+2023-08-10T05:13:13.096  INFO --- [-functhread5] hypercorn.error            : Running on https://0.0.0.0:4566 (CTRL + C to quit)
+2023-08-10T05:13:13.096  INFO --- [-functhread5] hypercorn.error            : Running on https://0.0.0.0:4566 (CTRL + C to quit)
+2023-08-10T05:13:13.098  INFO --- [-functhread6] hypercorn.error            : Running on https://0.0.0.0:443 (CTRL + C to quit)
+2023-08-10T05:13:13.098  INFO --- [-functhread6] hypercorn.error            : Running on https://0.0.0.0:443 (CTRL + C to quit)
+2023-08-10T05:13:13.369  INFO --- [  MainThread] localstack.utils.bootstrap : Execution of "start_runtime_components" took 605.23ms
+Ready.
+
+# Service available (pro version)
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+┃ Service                  ┃ Status      ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
+│ acm                      │ ✔ available │
+│ amplify                  │ ✔ available │
+│ apigateway               │ ✔ available │
+│ apigatewaymanagementapi  │ ✔ available │
+│ apigatewayv2             │ ✔ available │
+│ appconfig                │ ✔ available │
+│ application-autoscaling  │ ✔ available │
+│ appsync                  │ ✔ available │
+│ athena                   │ ✔ available │
+│ autoscaling              │ ✔ available │
+│ backup                   │ ✔ available │
+│ batch                    │ ✔ available │
+│ ce                       │ ✔ available │
+│ cloudformation           │ ✔ available │
+│ cloudfront               │ ✔ available │
+│ cloudtrail               │ ✔ available │
+│ cloudwatch               │ ✔ available │
+│ codecommit               │ ✔ available │
+│ cognito-identity         │ ✔ available │
+│ cognito-idp              │ ✔ available │
+│ config                   │ ✔ available │
+│ docdb                    │ ✔ available │
+│ dynamodb                 │ ✔ available │
+│ dynamodbstreams          │ ✔ available │
+│ ec2                      │ ✔ available │
+│ ecr                      │ ✔ available │
+│ ecs                      │ ✔ available │
+│ efs                      │ ✔ available │
+│ eks                      │ ✔ available │
+│ elasticache              │ ✔ available │
+│ elasticbeanstalk         │ ✔ available │
+│ elb                      │ ✔ available │
+│ elbv2                    │ ✔ available │
+│ emr                      │ ✔ available │
+│ emr-serverless           │ ✔ available │
+│ es                       │ ✔ available │
+│ events                   │ ✔ available │
+│ firehose                 │ ✔ available │
+│ fis                      │ ✔ available │
+│ glacier                  │ ✔ available │
+│ glue                     │ ✔ available │
+│ iam                      │ ✔ available │
+│ iot                      │ ✔ available │
+│ iot-data                 │ ✔ available │
+│ iotanalytics             │ ✔ available │
+│ iotwireless              │ ✔ available │
+│ kafka                    │ ✔ available │
+│ kinesis                  │ ✔ available │
+│ kinesisanalytics         │ ✔ available │
+│ kinesisanalyticsv2       │ ✔ available │
+│ kms                      │ ✔ available │
+│ lakeformation            │ ✔ available │
+│ lambda                   │ ✔ available │
+│ logs                     │ ✔ available │
+│ mediastore               │ ✔ available │
+│ mediastore-data          │ ✔ available │
+│ mq                       │ ✔ available │
+│ mwaa                     │ ✔ available │
+│ neptune                  │ ✔ available │
+│ opensearch               │ ✔ available │
+│ organizations            │ ✔ available │
+│ qldb                     │ ✔ available │
+│ qldb-session             │ ✔ available │
+│ rds                      │ ✔ available │
+│ rds-data                 │ ✔ available │
+│ redshift                 │ ✔ available │
+│ redshift-data            │ ✔ available │
+│ resource-groups          │ ✔ available │
+│ resourcegroupstaggingapi │ ✔ available │
+│ route53                  │ ✔ available │
+│ route53resolver          │ ✔ available │
+│ s3                       │ ✔ available │
+│ s3control                │ ✔ available │
+│ sagemaker                │ ✔ available │
+│ sagemaker-runtime        │ ✔ available │
+│ scheduler                │ ✔ available │
+│ secretsmanager           │ ✔ available │
+│ serverlessrepo           │ ✔ available │
+│ servicediscovery         │ ✔ available │
+│ ses                      │ ✔ available │
+│ sesv2                    │ ✔ available │
+│ sns                      │ ✔ available │
+│ sqs                      │ ✔ available │
+│ ssm                      │ ✔ available │
+│ sso-admin                │ ✔ available │
+│ stepfunctions            │ ✔ available │
+│ sts                      │ ✔ available │
+│ support                  │ ✔ available │
+│ swf                      │ ✔ available │
+│ timestream-query         │ ✔ available │
+│ timestream-write         │ ✔ available │
+│ transcribe               │ ✔ available │
+│ transfer                 │ ✔ available │
+│ xray                     │ ✔ available │
+└──────────────────────────┴─────────────┘
+
+# Terraform
+
+pip install terraform-local
+
+git clone https://github.com/littlejo/terraform-eks-cilium
+
+tflocal init
+tflocal apply
+..
+Plan: 52 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + update_kubeconfig = "aws eks update-kubeconfig --name terraform-cilium --kubeconfig ~/.kube/config"
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+...
+module.eks.aws_eks_cluster.this[0]: Still creating... [2m30s elapsed]
+module.eks.aws_eks_cluster.this[0]: Still creating... [2m40s elapsed]
+module.eks.aws_eks_cluster.this[0]: Still creating... [2m50s elapsed]
+module.eks.aws_eks_cluster.this[0]: Still creating... [3m0s elapsed]
+module.eks.aws_eks_cluster.this[0]: Still creating... [3m10s elapsed]
+╷
+│ Error: waiting for EKS Cluster (terraform-cilium) create: unexpected state 'FAILED', wanted target 'ACTIVE'. last error: %!s(<nil>)
+│
+│   with module.eks.aws_eks_cluster.this[0],
+│   on .terraform/modules/eks/main.tf line 25, in resource "aws_eks_cluster" "this":
+│   25: resource "aws_eks_cluster" "this" {
+│
+╵
+
+LOG:
+2023-08-10T05:31:47.903  INFO --- [uncthread387] l.services.eks.k8s_utils   : Error creating cluster terraform-cilium - deleting and retrying: Timeout while waiting for EKS startup...
+
+tflocal apply
+[...]
+Plan: 8 to add, 1 to change, 1 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+...
+module.eks.aws_eks_cluster.this[0]: Still creating... [3m10s elapsed]
+╷
+│ Error: waiting for EKS Cluster (terraform-cilium) create: unexpected state 'FAILED', wanted target 'ACTIVE'. last error: %!s(<nil>)
+│
+│   with module.eks.aws_eks_cluster.this[0],
+│   on .terraform/modules/eks/main.tf line 25, in resource "aws_eks_cluster" "this":
+│   25: resource "aws_eks_cluster" "this" {
+│
+╵
+
+
+# RETRY
+
+export LOCALSTACK_API_KEY=XXXXXXXX
+
+localstack start
+
+tflocal apply
+
+It works
